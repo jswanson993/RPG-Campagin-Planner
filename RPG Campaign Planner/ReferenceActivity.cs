@@ -17,7 +17,7 @@ using Android.Text;
 using Android.Views.Autofill;
 using System.Text.RegularExpressions;
 using models;
-using Controllers;
+using System.Collections.Generic;
 
 namespace RPG_Campaign_Planner {
 	[Activity(Label = "ReferenceActivity", Theme = "@style/AppTheme.NoActionBar")]
@@ -36,6 +36,8 @@ namespace RPG_Campaign_Planner {
             FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
             fab.Click += FabOnClick;
 
+            
+
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             drawer.AddDrawerListener(toggle);
@@ -43,6 +45,17 @@ namespace RPG_Campaign_Planner {
 
             NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
+
+            campaignController = new CampaignController();
+            string[] notes = campaignController.GetNotes(campaignController.GetConnection(), campaignText);
+            if(notes[0] == null) {
+                notes = new String[] { };
+			}
+
+            ListView listView = FindViewById<ListView>(Resource.Id.campaign_list);
+            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, notes);
+            listView.Adapter = adapter;
+            
         }
 
         public override void OnBackPressed() {
@@ -69,7 +82,7 @@ namespace RPG_Campaign_Planner {
         }
 
         private void FabOnClick(object sender, EventArgs eventArgs) {
-
+            
         }
 
         public bool OnNavigationItemSelected(IMenuItem item) {
