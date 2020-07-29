@@ -21,6 +21,8 @@ using Java.IO;
 using Android.Support.V7.RecyclerView.Extensions;
 using System.Collections.Generic;
 using Android.Support.V7.View.Menu;
+using System.Security.Cryptography;
+using Android.Util;
 
 namespace RPG_Campaign_Planner
 {
@@ -49,29 +51,29 @@ namespace RPG_Campaign_Planner
             fab.Click += FabOnClick;
 
             cc = new CampaignController();
-            cc.CreateDatabase(cc.GetConnection());
+            cc.CreateDatabase();
 
             camps = GetExistingCampaigns();
             if(camps[0] == null) {
                 camps = new List<string>();
 			}
             adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, camps);
-            listView = FindViewById<ListView>(Resource.Id.campaign_list);
+            listView = new ListView(this);
+            var padding = Convert.ToInt32(TypedValue.ApplyDimension(ComplexUnitType.Dip, 4, this.Resources.DisplayMetrics));
+            listView.SetPadding(padding, padding, padding, padding);
+            
             listView.Adapter = adapter;
 
             listView.TextFilterEnabled = true;
 
             listView.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args) {
-                /*
-                var intent = new Intent(this, typeof(ReferenceActivity));
-                intent.PutExtra("Selected Campaign", txtTag.Text);
-                intent.PutExtra("Campaign Controller", cc);
-                StartActivity(intent);
-                */
-                var intent = new Intent(this, typeof(ReferenceActivity));
+                var intent = new Intent(this, typeof(NotesActivity));
                 intent.PutExtra("Selected Campaign", ((TextView)args.View).Text);
                 StartActivity(intent);
             };
+            LinearLayout ll = FindViewById<LinearLayout>(Resource.Id.main_content_layout);
+            ll.AddView(listView);
+            
 
         }
 
@@ -121,7 +123,7 @@ namespace RPG_Campaign_Planner
 
             } else {
                 View view = (View)sender;
-                if (cc.AddCampaign(cc.GetConnection(), txtCampaignName.Text)) {
+                if (cc.AddCampaign(txtCampaignName.Text)) {
                     adapter.Add(txtCampaignName.Text.ToString());
                     adapter.NotifyDataSetChanged();
                     popupDialog.Dismiss();
@@ -139,7 +141,7 @@ namespace RPG_Campaign_Planner
         }
 
         private List<string> GetExistingCampaigns() {
-            return new List<string>(cc.GetCampaigns(cc.GetConnection()));
+            return new List<string>(cc.GetCampaigns());
         }
 		
 

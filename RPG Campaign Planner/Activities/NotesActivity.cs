@@ -17,26 +17,29 @@ using Android.Text;
 using Android.Views.Autofill;
 using System.Text.RegularExpressions;
 using models;
+using Java.IO;
+using Android.Support.V7.RecyclerView.Extensions;
 using System.Collections.Generic;
+using Android.Support.V7.View.Menu;
+using System.Security.Cryptography;
+using Android.Util;
+using RPG_Campaign_Planner.Activities;
+using System.Linq;
+
 
 namespace RPG_Campaign_Planner {
-	[Activity(Label = "ReferenceActivity", Theme = "@style/AppTheme.NoActionBar")]
-	public class ReferenceActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener {
-        private CampaignController campaignController;
-
+	[Activity(Label = "General Notes", Theme = "@style/AppTheme.NoActionBar")]
+	public class NotesActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener {
+        string campaignText;
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            string campaignText = Intent.GetStringExtra("Selected Campaign") ?? "Data not available";
             SetContentView(Resource.Layout.activity_ref);
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
-
             FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
             fab.Click += FabOnClick;
-
-            
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
@@ -46,16 +49,29 @@ namespace RPG_Campaign_Planner {
             NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
 
-            campaignController = new CampaignController();
-            string[] notes = campaignController.GetNotes(campaignController.GetConnection(), campaignText);
-            if(notes[0] == null) {
-                notes = new String[] { };
-			}
+            campaignText = Intent.GetStringExtra("Selected Campaign") ?? "Data not available";
 
-            ListView listView = FindViewById<ListView>(Resource.Id.campaign_list);
+            ViewStub stub = FindViewById<ViewStub>(Resource.Id.layout_stub);
+            stub.LayoutResource = Resource.Layout.content_main;
+            View inflated = stub.Inflate();
+
+            GeneralNotesController gc = new GeneralNotesController();
+
+            List<String> notes = new List<String>(gc.GetNotes(campaignText));
+            if (notes[0] == null) {
+                notes = new List<string>();
+            }
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, notes);
+            ListView listView = new ListView(this);
+            var padding = Convert.ToInt32(TypedValue.ApplyDimension(ComplexUnitType.Dip, 4, this.Resources.DisplayMetrics));
+            listView.SetPadding(padding, padding, padding, padding);
+
             listView.Adapter = adapter;
-            
+
+            listView.TextFilterEnabled = true;
+
+            LinearLayout ll = FindViewById<LinearLayout>(Resource.Id.main_content_layout);
+            ll.AddView(listView);   
         }
 
         public override void OnBackPressed() {
@@ -81,8 +97,15 @@ namespace RPG_Campaign_Planner {
             return base.OnOptionsItemSelected(item);
         }
 
-        private void FabOnClick(object sender, EventArgs eventArgs) {
-            
+		protected override void OnResume() {
+			base.OnResume();
+            System.Console.WriteLine("Test");
+		}
+
+		private void FabOnClick(object sender, EventArgs eventArgs) {
+            var intent = new Intent(this, typeof(AddGeneralNoteActivity));
+            intent.PutExtra("Selected Campaign", campaignText);
+            StartActivity(intent);
         }
 
         public bool OnNavigationItemSelected(IMenuItem item) {
@@ -106,14 +129,6 @@ namespace RPG_Campaign_Planner {
             drawer.CloseDrawer(GravityCompat.Start);
             return true;
         }
-
-        private void DisplayGeneralNotes(string campaignText) {
-            string[] notes;
-
-            notes = campaignController.GetNotes(campaignController.GetConnection(), campaignText);
-            foreach(string note in notes) {
-			}
-		}
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults) {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);

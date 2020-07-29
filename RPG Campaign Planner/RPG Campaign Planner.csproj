@@ -61,12 +61,14 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CampaignController.cs" />
-    <Compile Include="GeneralNotesFragment.cs" />
-    <Compile Include="MainActivity.cs" />
+    <Compile Include="Activities\AddGeneralNoteActivity.cs" />
+    <Compile Include="Controllers\CampaignController.cs" />
+    <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="Controllers\GeneralNotesController.cs" />
     <Compile Include="Models\CampaignModel.cs" />
+    <Compile Include="Models\GeneralNotesModel.cs" />
     <Compile Include="Models\NPCModel.cs" />
-    <Compile Include="ReferenceActivity.cs" />
+    <Compile Include="Activities\NotesActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -149,6 +151,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_add_note.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_notes.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
