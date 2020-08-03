@@ -4,20 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    
-    <EditText
-        android:id="@+id/edit_notes"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionGo"
-        android:inputType="text"
-        android:hint="Your Campaign note"
-        android:padding="10dp" 
+        android:layout_weight="1">
+        <EditText
+            android:id="@+id/edit_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:imeOptions="actionGo"
+            android:inputType="textMultiLine|textCapSentences"
+            android:hint="Your Campaign note"
+            android:maxLength="2000"
+            android:maxLines="10"
+            android:padding="10dp"
         />
+    </ScrollView>
         <Button
         android:text="Submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:id="@+id/submit_note_button" />
 
 

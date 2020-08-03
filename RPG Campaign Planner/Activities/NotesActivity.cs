@@ -52,9 +52,12 @@ namespace RPG_Campaign_Planner {
             campaignText = Intent.GetStringExtra("Selected Campaign") ?? "Data not available";
 
             ViewStub stub = FindViewById<ViewStub>(Resource.Id.layout_stub);
-            stub.LayoutResource = Resource.Layout.content_main;
+            stub.LayoutResource = Resource.Layout.activity_notes;
             View inflated = stub.Inflate();
+            CreateNotesList();
+        }
 
+        private void CreateNotesList() {
             GeneralNotesController gc = new GeneralNotesController();
 
             List<String> notes = new List<String>(gc.GetNotes(campaignText));
@@ -70,9 +73,24 @@ namespace RPG_Campaign_Planner {
 
             listView.TextFilterEnabled = true;
 
-            LinearLayout ll = FindViewById<LinearLayout>(Resource.Id.main_content_layout);
-            ll.AddView(listView);   
+            LinearLayout ll = FindViewById<LinearLayout>(Resource.Id.notes_layout);
+            ll.AddView(listView);
         }
+
+        private void UpdateNotesList() {
+            GeneralNotesController gc = new GeneralNotesController();
+            List<string> notes = new List<string>(gc.GetNotes(campaignText));
+            if(notes[0] == null) {
+                return;
+			}
+            LinearLayout linearLayout = FindViewById<LinearLayout>(Resource.Id.notes_layout);
+            ListView listView = (ListView)linearLayout.GetChildAt(0);
+            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, notes);
+            if (listView != null) {
+				listView.Adapter = adapter;
+            }
+            linearLayout.RefreshDrawableState();
+		}
 
         public override void OnBackPressed() {
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
@@ -99,7 +117,7 @@ namespace RPG_Campaign_Planner {
 
 		protected override void OnResume() {
 			base.OnResume();
-            System.Console.WriteLine("Test");
+            UpdateNotesList();
 		}
 
 		private void FabOnClick(object sender, EventArgs eventArgs) {

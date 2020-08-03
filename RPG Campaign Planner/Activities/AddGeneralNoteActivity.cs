@@ -33,7 +33,7 @@ namespace RPG_Campaign_Planner.Activities {
 
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
-			SetContentView(Resource.Layout.activity_add_note);
+			SetContentView( Resource.Layout.activity_add_note);
 
 			campaignText = Intent.GetStringExtra("Selected Campaign") ?? "Data not available";
 			existingNote = Intent.GetStringExtra("Current Note") ?? "";
