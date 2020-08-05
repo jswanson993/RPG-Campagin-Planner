@@ -25,10 +25,10 @@ using System.Security.Cryptography;
 using Android.Util;
 using RPG_Campaign_Planner.Activities;
 using System.Linq;
-
+using Android.Content.PM;
 
 namespace RPG_Campaign_Planner {
-	[Activity(Label = "General Notes", Theme = "@style/AppTheme.NoActionBar")]
+	[Activity(Label = "General Notes", Theme = "@style/AppTheme.NoActionBar", LaunchMode = LaunchMode.SingleTop)]
 	public class NotesActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener {
         string campaignText;
 		protected override void OnCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ namespace RPG_Campaign_Planner {
             campaignText = Intent.GetStringExtra("Selected Campaign") ?? "Data not available";
 
             ViewStub stub = FindViewById<ViewStub>(Resource.Id.layout_stub);
-            stub.LayoutResource = Resource.Layout.activity_notes;
+            stub.LayoutResource = Resource.Layout.activity_list;
             View inflated = stub.Inflate();
             CreateNotesList();
         }
@@ -73,7 +73,7 @@ namespace RPG_Campaign_Planner {
 
             listView.TextFilterEnabled = true;
 
-            LinearLayout ll = FindViewById<LinearLayout>(Resource.Id.notes_layout);
+            LinearLayout ll = FindViewById<LinearLayout>(Resource.Id.list_layout);
             ll.AddView(listView);
         }
 
@@ -83,7 +83,7 @@ namespace RPG_Campaign_Planner {
             if(notes[0] == null) {
                 return;
 			}
-            LinearLayout linearLayout = FindViewById<LinearLayout>(Resource.Id.notes_layout);
+            LinearLayout linearLayout = FindViewById<LinearLayout>(Resource.Id.list_layout);
             ListView listView = (ListView)linearLayout.GetChildAt(0);
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, notes);
             if (listView != null) {
@@ -129,13 +129,18 @@ namespace RPG_Campaign_Planner {
         public bool OnNavigationItemSelected(IMenuItem item) {
             int id = item.ItemId;
 
-            if (id == Resource.Id.nav_camera) {
-                // Handle the camera action
-            } else if (id == Resource.Id.nav_gallery) {
+            if (id == Resource.Id.nav_notes) {
+                var intent = new Intent(this, typeof(NotesActivity));
+                intent.PutExtra("Selected Campaign", campaignText);
+                intent.AddFlags(ActivityFlags.SingleTop);
+                StartActivity(intent);
+            } else if (id == Resource.Id.nav_npcs) {
 
-            } else if (id == Resource.Id.nav_slideshow) {
+            } else if (id == Resource.Id.nav_pcs) {
 
-            } else if (id == Resource.Id.nav_manage) {
+            } else if (id == Resource.Id.nav_locations) {
+
+            } else if(id == Resource.Id.nav_factions) { 
 
             } else if (id == Resource.Id.nav_share) {
 
