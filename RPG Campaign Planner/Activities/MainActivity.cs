@@ -67,8 +67,9 @@ namespace RPG_Campaign_Planner
             listView.TextFilterEnabled = true;
 
             listView.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args) {
+                ISharedPreferences sharedprefs = GetSharedPreferences("prefs_file", FileCreationMode.Private);
+                sharedprefs.Edit().PutString("Campaign", ((TextView)args.View).Text).Commit();
                 var intent = new Intent(this, typeof(NotesActivity));
-                intent.PutExtra("Selected Campaign", ((TextView)args.View).Text);
                 StartActivity(intent);
             };
             LinearLayout ll = FindViewById<LinearLayout>(Resource.Id.main_content_layout);

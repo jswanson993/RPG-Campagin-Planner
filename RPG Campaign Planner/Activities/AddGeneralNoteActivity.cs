@@ -35,7 +35,8 @@ namespace RPG_Campaign_Planner.Activities {
 			base.OnCreate(savedInstanceState);
 			SetContentView( Resource.Layout.activity_add_note);
 
-			campaignText = Intent.GetStringExtra("Selected Campaign") ?? "Data not available";
+			ISharedPreferences sharedprefs = GetSharedPreferences("prefs_file", FileCreationMode.Private);
+			campaignText = sharedprefs.GetString("Campaign", null);
 			existingNote = Intent.GetStringExtra("Current Note") ?? "";
 			EditText text = FindViewById<EditText>(Resource.Id.edit_notes);
 			Button subButton = FindViewById<Button>(Resource.Id.submit_note_button);

@@ -27,12 +27,12 @@ using RPG_Campaign_Planner.Activities;
 using System.Linq;
 using Android.Content.PM;
 
-namespace RPG_Campaign_Planner {
-	[Activity(Label = "General Notes", Theme = "@style/AppTheme.NoActionBar", LaunchMode = LaunchMode.SingleTop)]
-	public class NotesActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener {
+namespace RPG_Campaign_Planner.Activities {
+	[Activity(Label = "NPCActivity", Theme = "@style/AppTheme.NoActionBar")]
+	public class NPCActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener {
         string campaignText;
-		protected override void OnCreate(Bundle savedInstanceState) {
-			base.OnCreate(savedInstanceState);
+        protected override void OnCreate(Bundle savedInstanceState) {
+            base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_ref);
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
@@ -52,77 +52,12 @@ namespace RPG_Campaign_Planner {
             campaignText = sharedprefs.GetString("Campaign", null);
 
             ViewStub stub = FindViewById<ViewStub>(Resource.Id.layout_stub);
-            stub.LayoutResource = Resource.Layout.activity_list;
+            stub.LayoutResource = Resource.Layout.activity_NPCs;
             View inflated = stub.Inflate();
-            CreateNotesList();
         }
 
-        private void CreateNotesList() {
-            GeneralNotesController gc = new GeneralNotesController();
-
-            List<String> notes = new List<String>(gc.GetNotes(campaignText));
-            if (notes[0] == null) {
-                notes = new List<string>();
-            }
-            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, notes);
-            ListView listView = new ListView(this);
-            var padding = Convert.ToInt32(TypedValue.ApplyDimension(ComplexUnitType.Dip, 4, this.Resources.DisplayMetrics));
-            listView.SetPadding(padding, padding, padding, padding);
-
-            listView.Adapter = adapter;
-
-            listView.TextFilterEnabled = true;
-
-            LinearLayout ll = FindViewById<LinearLayout>(Resource.Id.list_layout);
-            ll.AddView(listView);
-        }
-
-        private void UpdateNotesList() {
-            GeneralNotesController gc = new GeneralNotesController();
-            List<string> notes = new List<string>(gc.GetNotes(campaignText));
-            if(notes[0] == null) {
-                return;
-			}
-            LinearLayout linearLayout = FindViewById<LinearLayout>(Resource.Id.list_layout);
-            ListView listView = (ListView)linearLayout.GetChildAt(0);
-            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, notes);
-            if (listView != null) {
-				listView.Adapter = adapter;
-            }
-            linearLayout.RefreshDrawableState();
-		}
-
-        public override void OnBackPressed() {
-            DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            if (drawer.IsDrawerOpen(GravityCompat.Start)) {
-                drawer.CloseDrawer(GravityCompat.Start);
-            } else {
-                base.OnBackPressed();
-            }
-        }
-
-        public override bool OnCreateOptionsMenu(IMenu menu) {
-            MenuInflater.Inflate(Resource.Menu.menu_main, menu);
-            return true;
-        }
-
-        public override bool OnOptionsItemSelected(IMenuItem item) {
-            int id = item.ItemId;
-            if (id == Resource.Id.action_settings) {
-                return true;
-            }
-
-            return base.OnOptionsItemSelected(item);
-        }
-
-		protected override void OnResume() {
-			base.OnResume();
-            UpdateNotesList();
-		}
-
-		private void FabOnClick(object sender, EventArgs eventArgs) {
-            var intent = new Intent(this, typeof(AddGeneralNoteActivity));
-            intent.PutExtra("Selected Campaign", campaignText);
+        private void FabOnClick(object sender, EventArgs eventArgs) {
+            var intent = new Intent(this, typeof(AddNPCActivity ));
             StartActivity(intent);
         }
 
@@ -135,13 +70,12 @@ namespace RPG_Campaign_Planner {
                 intent.AddFlags(ActivityFlags.SingleTop);
                 StartActivity(intent);
             } else if (id == Resource.Id.nav_npcs) {
-                var intent = new Intent(this, typeof(NPCActivity));
-                StartActivity(intent);
+
             } else if (id == Resource.Id.nav_pcs) {
 
             } else if (id == Resource.Id.nav_locations) {
 
-            } else if(id == Resource.Id.nav_factions) { 
+            } else if (id == Resource.Id.nav_factions) {
 
             } else if (id == Resource.Id.nav_share) {
 

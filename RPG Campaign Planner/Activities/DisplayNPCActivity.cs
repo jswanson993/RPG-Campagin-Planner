@@ -19,9 +19,10 @@ namespace RPG_Campaign_Planner.Activities {
 			base.OnCreate(savedInstanceState);
 
 			var npcName = Intent.Extras.GetString("NPCName");
-			var campaign = Intent.Extras.GetString("Campaign");
+			ISharedPreferences sharedprefs = GetSharedPreferences("prefs_file", FileCreationMode.Private);
+			string campaignText = sharedprefs.GetString("Campaign", null);
 
-			var detailsFrag = DisplayNPCFragment.NewInstance(npcName, campaign);
+			var detailsFrag = DisplayNPCFragment.NewInstance(npcName, campaignText);
 
 			SupportFragmentManager.BeginTransaction().Add(Android.Resource.Id.Content, detailsFrag).Commit();
 		}

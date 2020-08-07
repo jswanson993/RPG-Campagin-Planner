@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <ScrollView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <TextView
+        android:text="NPC Name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textName"
+        android:textAlignment="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editName"
+                android:maxLength="20"
+                android:paddingBottom="10dp"
+                android:hint="John Smith *REQUIRED*"
+                android:inputType="textCapWords" />
+
+            <TextView
+        android:text="Appearence"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textAppearence"
+        android:textAlignment="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editAppearence"
+                android:maxLength="20"
+                android:paddingBottom="10dp"
+                android:hint="A breif description that can be used for when the players meet them for the first time"
+                android:inputType="textCapSentences|textMultiLine" />
+
+            
+            <TextView
+        android:text="Quote"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textQuote"
+        android:textAlignment="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editQuote"
+                android:textAlignment="textStart"
+                android:maxLength="20"
+                android:paddingBottom="10dp"
+                android:hint="A 1-2 sentence quote that quickly captures the voice of the character"
+                android:inputType="textCapSentences|textMultiLine" />
+
+                        <TextView
+        android:text="Roleplaying Hint"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textRoleplay"
+        android:textAlignment="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editRoleplay"
+                android:maxLength="20"
+                android:paddingBottom="10dp"
+                android:hint="Any mannerisms or personality traits to help get into the character"
+                android:inputType="textCapSentences|textMultiLine" />
+
+            <TextView
+        android:text="Background"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textBackground"
+        android:textAlignment="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editBackground"
+                android:maxLength="20"
+                android:paddingBottom="10dp"
+                android:hint="Where the character comes from and where theyve been before meeting the players"
+                android:inputType="textCapSentences|textMultiLine" />
+
+            <TextView
+        android:text="Key Info"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textInfo"
+        android:textAlignment="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editInfo"
+                android:maxLength="20"
+                android:paddingBottom="10dp"
+                android:hint="How interactions with them should go and what information they have for the players"
+                android:inputType="textCapSentences|textMultiLine" />
+
+            <TextView
+        android:text="Stats"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textStats"
+        android:textAlignment="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editStats"
+                android:maxLength="20"
+                android:paddingBottom="10dp"
+                android:hint="Character stat block or relevent skills if needed"
+                android:inputType="textCapSentences|textMultiLine" />
+                <Button
+        android:text="Submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonSubmitNPC" />
+        </LinearLayout>
+    </ScrollView>
+
+  
+
+</LinearLayout>

@@ -62,7 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\AddGeneralNoteActivity.cs" />
+    <Compile Include="Activities\AddNPCActivity.cs" />
     <Compile Include="Activities\DisplayNPCActivity.cs" />
+    <Compile Include="Activities\NPCActivity.cs" />
     <Compile Include="Controllers\CampaignController.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Controllers\GeneralNotesController.cs" />
@@ -160,6 +162,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_list.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_NPCs.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_add_npc.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

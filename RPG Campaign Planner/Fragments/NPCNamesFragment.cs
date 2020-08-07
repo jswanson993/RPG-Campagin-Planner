@@ -22,13 +22,30 @@ namespace RPG_Campaign_Planner.Fragments {
 		string campaignName;
 		public override void OnActivityCreated(Bundle savedInstanceState) {
 			base.OnActivityCreated(savedInstanceState);
-			campaignName = Arguments.GetString("Campaign");
+
+			ISharedPreferences sharedprefs = Context.GetSharedPreferences("prefs_file", FileCreationMode.Private);
+			campaignName = sharedprefs.GetString("Campaign", null);
 			string[] names = getNPCs(campaignName);
+			if (names[0] == null) {
+				names = new string[] { };
+			}
+
 			ListAdapter = new ArrayAdapter<String>(Activity, Android.Resource.Layout.SimpleListItemActivated1, names);
 
 			if(savedInstanceState != null) {
 				selectedNPC = savedInstanceState.GetString("current_NPC");
 			}
+		}
+
+		public override void OnResume() {
+			base.OnResume();
+			ISharedPreferences sharedprefs = Context.GetSharedPreferences("prefs_file", FileCreationMode.Private);
+			campaignName = sharedprefs.GetString("Campaign", null);
+			string[] names = getNPCs(campaignName);
+			if (names[0] == null) {
+				names = new string[] { };
+			}
+			ListAdapter = new ArrayAdapter<String>(Activity, Android.Resource.Layout.SimpleListItemActivated1, names);
 		}
 
 		public override void OnSaveInstanceState(Bundle outState) {
@@ -46,8 +63,7 @@ namespace RPG_Campaign_Planner.Fragments {
 
 		private void ShowNPC(string name) {
 			var intent = new Intent(Activity, typeof(DisplayNPCActivity));
-			intent.PutExtra("NPCName", selectedNPC);
-			intent.PutExtra("Campaign", campaignName);
+			intent.PutExtra("NPCName", name);
 			StartActivity(intent);
 		}
 
