@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -47,7 +47,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/editAppearence"
-                android:maxLength="20"
                 android:paddingBottom="10dp"
                 android:hint="A breif description that can be used for when the players meet them for the first time"
                 android:inputType="textCapSentences|textMultiLine" />
@@ -68,7 +67,6 @@
                 android:layout_height="match_parent"
                 android:id="@+id/editQuote"
                 android:textAlignment="textStart"
-                android:maxLength="20"
                 android:paddingBottom="10dp"
                 android:hint="A 1-2 sentence quote that quickly captures the voice of the character"
                 android:inputType="textCapSentences|textMultiLine" />
@@ -87,7 +85,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/editRoleplay"
-                android:maxLength="20"
                 android:paddingBottom="10dp"
                 android:hint="Any mannerisms or personality traits to help get into the character"
                 android:inputType="textCapSentences|textMultiLine" />
@@ -106,7 +103,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/editBackground"
-                android:maxLength="20"
                 android:paddingBottom="10dp"
                 android:hint="Where the character comes from and where theyve been before meeting the players"
                 android:inputType="textCapSentences|textMultiLine" />
@@ -125,7 +121,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/editInfo"
-                android:maxLength="20"
                 android:paddingBottom="10dp"
                 android:hint="How interactions with them should go and what information they have for the players"
                 android:inputType="textCapSentences|textMultiLine" />
@@ -144,7 +139,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/editStats"
-                android:maxLength="20"
                 android:paddingBottom="10dp"
                 android:hint="Character stat block or relevent skills if needed"
                 android:inputType="textCapSentences|textMultiLine" />

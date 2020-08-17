@@ -9,7 +9,7 @@ namespace models {
 		public string Name { get; set; }
 		[ForeignKey(typeof(Campaign)), Column("Campaign")]
 		public string Campaign { get; set; }
-		[Column("Appearance")]
+		[Column("Appearance"), MaxLength(500)]
 		public string Appearance { get; set; }
 		[Column("Quote")]
 		public string Quote { get; set; }

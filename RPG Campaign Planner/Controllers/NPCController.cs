@@ -1,12 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using SQLite;
 using models;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using Org.Json;
+using System.Runtime.InteropServices;
+using Android.Accounts;
+using Newtonsoft.Json;
+using RPG_Campaign_Planner.Parcelables;
 
 namespace RPG_Campaign_Planner.Controllers {
-	class NPCController {
+	class NPCController{
 		private SQLiteConnection conn;
 
 		public NPCController(string path = null, SQLiteConnection conn = null) {
@@ -22,15 +28,19 @@ namespace RPG_Campaign_Planner.Controllers {
 			return conn;
 		}
 
-		public NPC GetNPC(string name, string campaign) {
+		public NPCParcelable GetNPC(string name, string campaign) {
+			List<string> results = new List<string>();
 			var query = from npc in conn.Table<NPC>()
 						where npc.Campaign.Equals(campaign) && npc.Name.Equals(name)
 						select npc;
 
+			NPCParcelable parcelable = new NPCParcelable();
 			try {
-				return query.SingleOrDefault<NPC>();
-			}catch(Exception e) {
-				return query.FirstOrDefault<NPC>();
+				parcelable.NPC = query.SingleOrDefault();
+				return parcelable;
+			} catch {
+				parcelable.NPC = query.FirstOrDefault();
+				return parcelable;
 			}
 		}
 
@@ -46,13 +56,14 @@ namespace RPG_Campaign_Planner.Controllers {
 		}
 
 		public bool AddNPC(string name, string campaign, string appearence = null, string quote = null, string roleplay = null, string background = null, string info = null, string stats = null) {
-			if (GetNPC(name, campaign) != null) {
+			if (GetNPC(name, campaign).NPC != null) {
 				return false;
 			}
 
 			NPC npc = new NPC();
 			npc.Name = name;
 			npc.Campaign = campaign;
+			npc.Appearance = appearence;
 			npc.Quote = quote;
 			npc.Roleplaying = roleplay;
 			npc.Background = background;
